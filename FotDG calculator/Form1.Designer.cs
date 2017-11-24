@@ -110,6 +110,8 @@
             this.comboBox_MH_W_QLTY = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox_R_AP = new System.Windows.Forms.TextBox();
+            this.label36 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -119,8 +121,7 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
-            this.textBox_R_AP = new System.Windows.Forms.TextBox();
-            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -997,6 +998,23 @@
             this.groupBox3.TabIndex = 78;
             this.groupBox3.TabStop = false;
             // 
+            // textBox_R_AP
+            // 
+            this.textBox_R_AP.Enabled = false;
+            this.textBox_R_AP.Location = new System.Drawing.Point(261, 160);
+            this.textBox_R_AP.Name = "textBox_R_AP";
+            this.textBox_R_AP.Size = new System.Drawing.Size(36, 20);
+            this.textBox_R_AP.TabIndex = 73;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(12, 167);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(65, 13);
+            this.label36.TabIndex = 72;
+            this.label36.Text = "Total_(R)AP";
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label21);
@@ -1111,29 +1129,22 @@
     "+ OH_WpAp * 0.5) * (1 + SumDamBonus)) / (( MH_W_SPD + OH_W_SPD ) *  0.5 * Haste_" +
     "Mul )";
             // 
-            // textBox_R_AP
+            // label37
             // 
-            this.textBox_R_AP.Enabled = false;
-            this.textBox_R_AP.Location = new System.Drawing.Point(261, 160);
-            this.textBox_R_AP.Name = "textBox_R_AP";
-            this.textBox_R_AP.Size = new System.Drawing.Size(36, 20);
-            this.textBox_R_AP.TabIndex = 73;
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(12, 167);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(65, 13);
-            this.label36.TabIndex = 72;
-            this.label36.Text = "Total_(R)AP";
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(11, 854);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(91, 13);
+            this.label37.TabIndex = 88;
+            this.label37.Text = "COLOR LEGEND";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1873, 640);
+            this.ClientSize = new System.Drawing.Size(1873, 856);
+            this.Controls.Add(this.label37);
             this.Controls.Add(this.label35);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.label33);
@@ -1274,6 +1285,7 @@
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TextBox textBox_R_AP;
         private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
     }
 }
 

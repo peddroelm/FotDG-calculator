@@ -195,9 +195,18 @@ namespace FotDG_calculator
     };
 
         int GlobalTempButtonTotal = 0; // global var
-        int Global_top = 500;
+        int Global_top = 530;
         int Global_left = 0;
         float constScalingCoef = 200;
+        Color Ability_Cooldown_Color= Color.Chartreuse;
+        Color GCD_Cooldown_Color = Color.Aqua;
+        Color Ability_Cast_Color = Color.Red;
+        Color MH_Cast_Color_A = Color.LightPink;
+        Color MH_Cast_Color_B = Color.DeepPink;
+        Color OH_Cast_Color = Color.Yellow;
+        Color MH_Cooldown_Color = Color.DarkSlateBlue;
+        Color Time_Scale_Color = Color.Coral;
+
 
         public Form1()
         {
@@ -244,9 +253,7 @@ namespace FotDG_calculator
             } while (MHWPNID < constNrWeaponClasses);
 
             // If  DW is checked get OHWPN index
-
-
-          
+    
             int OHWPNID = 0; float DW_SPD_MUL = 1f;
             if (checkBoxDualWield.Checked)
             {
@@ -334,9 +341,9 @@ namespace FotDG_calculator
 
             while (CurrentAbility < 4) 
             {
-                PlaceButton(CurentTime, AB_CD_Offset[CurrentAbility], QueuedAbilityCooldownTimes[CurrentAbility], QueuedAbilityCooldownTimes[CurrentAbility].ToString("0.00"), Color.Chartreuse); // AB_CD
-                PlaceButton(CurentTime, 120, 6 * haste_MUL, (6 * haste_MUL).ToString("0.00"), Color.Aqua);  // GCD
-                PlaceButton(CurentTime, 150, QueuedAbilityCastTimes[CurrentAbility] * haste_MUL, (QueuedAbilityCastTimes[CurrentAbility] * haste_MUL).ToString("0.00"), Color.Red); // AB_CAST TIME      
+                PlaceButton(CurentTime, AB_CD_Offset[CurrentAbility], QueuedAbilityCooldownTimes[CurrentAbility], QueuedAbilityCooldownTimes[CurrentAbility].ToString("0.00"), Ability_Cooldown_Color ); // AB_CD
+                PlaceButton(CurentTime, 120, 6 * haste_MUL, (6 * haste_MUL).ToString("0.00"), GCD_Cooldown_Color);  // GCD
+                PlaceButton(CurentTime, 150, QueuedAbilityCastTimes[CurrentAbility] * haste_MUL, (QueuedAbilityCastTimes[CurrentAbility] * haste_MUL).ToString("0.00"), Ability_Cast_Color); // AB_CAST TIME      
 
                AbilityCooldownEndTime[CurrentAbility] = CurentTime + QueuedAbilityCooldownTimes[CurrentAbility];
 
@@ -365,8 +372,8 @@ namespace FotDG_calculator
                     // fill in with AAs 
                     if (checkBoxDualWield.Checked)
                     {
-                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL, (myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL).ToString("0.00"), Color.Yellow); // OH Attack 
-                        PlaceButton(CurentTime + IntermediateCurentTime, 240, myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL, (myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL).ToString("0.00"), Color.Aqua); // OH WGCD
+                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL, (myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL).ToString("0.00"), OH_Cast_Color); // OH Attack 
+                        PlaceButton(CurentTime + IntermediateCurentTime, 240, myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL, (myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL).ToString("0.00"), GCD_Cooldown_Color); // OH WGCD
                             IntermediateCurentTime += myWeaponClassArray[OHWPNID].Speed * 0.5f * haste_MUL;
                        if (IntermediateCurentTime >= TimeToBeat) { CurentTime += IntermediateCurentTime; break; }; 
                     }
@@ -376,8 +383,8 @@ namespace FotDG_calculator
 
 
                             // MH_A
-                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), Color.DeepPink ); // MH_A Attack 
-                        PlaceButton(CurentTime + IntermediateCurentTime, 210, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * haste_MUL).ToString("0.00"), Color.DarkSlateBlue); // MH Cooldown
+                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), MH_Cast_Color_A ); // MH_A Attack 
+                        PlaceButton(CurentTime + IntermediateCurentTime, 210, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * haste_MUL).ToString("0.00"), MH_Cooldown_Color); // MH Cooldown
                         IntermediateCurentTime += myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL;
                         if (IntermediateCurentTime >= TimeToBeat) {
                             CurentTime += IntermediateCurentTime - myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL;
@@ -387,8 +394,8 @@ namespace FotDG_calculator
                      
 
                         // ADD MH_B
-                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), Color.Pink ); // MH_B Attack 
-                        PlaceButton(CurentTime + IntermediateCurentTime, 240, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), Color.Aqua); // MH WGCD
+                        PlaceButton(CurentTime + IntermediateCurentTime, 180, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), MH_Cast_Color_B ); // MH_B Attack 
+                        PlaceButton(CurentTime + IntermediateCurentTime, 240, myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL, (myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL).ToString("0.00"), GCD_Cooldown_Color); // MH WGCD
                         IntermediateCurentTime += myWeaponClassArray[MHWPNID].Speed * DW_SPD_MUL * 0.5f * haste_MUL;
                         if (IntermediateCurentTime >= TimeToBeat)
                         {
@@ -435,16 +442,16 @@ namespace FotDG_calculator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            RePopulateCombos();
+            RePopulateCombos(); Button button;
 
             // X time axis
             for (int i = 0; i < 100; i++)
             {
-                Button button = new Button();
+                 button = new Button();
                 button.Left = (int)(Global_left + 0.5 * i * constScalingCoef);
                 button.Top = Global_top + 270;
                 button.Enabled = false;
-                button.BackColor = Color.Coral;
+                button.BackColor = Time_Scale_Color;
                 button.Width = (int)(0.5 * constScalingCoef);
                 button.Text = ((float)(0.5 * i)).ToString();
                 button.TextAlign = ContentAlignment.MiddleLeft;
@@ -452,6 +459,116 @@ namespace FotDG_calculator
                 button.Font = new Font(button.Font.FontFamily, 6);
                 this.Controls.Add(button);
             }
+
+            //     Color Ability_Cooldown_Color = Color.Chartreuse;
+            //     Color GCD_Cooldown_Color = Color.Aqua;
+            //     Color Ability_Cast_Color = Color.Red;
+            //     Color MH_Cast_Color_A = Color.LightPink;
+            //     Color MH_Cast_Color_B = Color.DeepPink;
+            //     Color OH_Cast_Color = Color.Yellow;
+            //     Color MH_Cooldown_Color = Color.DarkSlateBlue;
+            //     Color Time_Scale_Color = Color.Coral;
+
+
+            // can't use place button - since it will die at refresh
+            //      PlaceButton(Global_left, 600, 50, "Ability_Cooldown_Color", Ability_Cooldown_Color);
+
+            button = new Button();
+            button.Left = 0;
+            button.Top = Global_top + 360;
+            button.Enabled = false;
+            button.BackColor = Ability_Cooldown_Color;
+            button.Width = 250;
+            button.Text = "Ability_Cooldown_Color";
+        //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 300;
+            button.Top = Global_top + 360;
+            button.Enabled = false;
+            button.BackColor = GCD_Cooldown_Color;
+            button.Width = 250;
+            button.Text = "GCD_Cooldown_Color";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 600;
+            button.Top = Global_top + 360;
+            button.Enabled = false;
+            button.BackColor = Ability_Cast_Color;
+            button.Width = 250;
+            button.Text = "Ability_Cast_Color";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 900;
+            button.Top = Global_top + 360;
+            button.Enabled = false;
+            button.BackColor = Time_Scale_Color;
+            button.Width = 250;
+            button.Text = "Time_Scale_Color";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+
+            button = new Button();
+            button.Left = 0;
+            button.Top = Global_top + 360 + 30;
+            button.Enabled = false;
+            button.BackColor = OH_Cast_Color;
+            button.Width = 250;
+            button.Text = "OH_Cast_Color";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 300;
+            button.Top = Global_top + 360 + 30;
+            button.Enabled = false;
+            button.BackColor = MH_Cast_Color_A;
+            button.Width = 250;
+            button.Text = "MH_Cast_Color_A";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 600;
+            button.Top = Global_top + 360 + 30;
+            button.Enabled = false;
+            button.BackColor = MH_Cast_Color_B;
+            button.Width = 250;
+            button.Text = "MH_Cast_Color_B";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
+
+            button = new Button();
+            button.Left = 900;
+            button.Top = Global_top + 360 + 30;
+            button.Enabled = false;
+            button.BackColor = MH_Cooldown_Color;
+            button.Width = 250;
+            button.Text = "MH_Cooldown_Color";
+            //    button.TextAlign = ContentAlignment.MiddleLeft;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font(button.Font.FontFamily, 8);
+            this.Controls.Add(button);
         }
 
         private void RePopulateCombos()
