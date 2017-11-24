@@ -12,7 +12,7 @@ namespace FotDG_calculator
 {
     struct Professions
     {
-        public Professions(int IDI, int ClassI,string NameI, bool DWI, string MHI, string OHI)
+        public Professions(int IDI, int ClassI,string NameI, bool DWI, string MHI, string OHI, float AP_MulI, float RAP_MUlI)
         {
             ID = IDI;
             Class = ClassI;
@@ -20,6 +20,8 @@ namespace FotDG_calculator
             DW = DWI;
             MH = MHI;
             OH = OHI;
+            AP_Mul = AP_MulI;
+            RAP_Mul = RAP_MUlI;
         }
 
         public int ID { get; }
@@ -28,18 +30,20 @@ namespace FotDG_calculator
         public bool DW { get; }
         public string MH { get; }  // weapons allowed in main hand
         public string OH { get; }  // weapons allowed in off hand
-    }
-    
+        public float AP_Mul { get; }
+        public float RAP_Mul { get; }
+            }
 
     struct WeaponClass
     {
-        public WeaponClass(int IDI, string NameI, bool TwoHandedI, float SpeedI, float DamageMultiplierI)
+        public WeaponClass(int IDI, string NameI, bool TwoHandedI, float SpeedI, float DamageMultiplierI, bool MeleeRangedI)
             {
             ID = IDI; 
             Name = NameI;
             TwoHanded = TwoHandedI;
             Speed = SpeedI;
             DamageMultiplier = DamageMultiplierI;
+            MeleeRanged = MeleeRangedI;
             }
 
      public int ID { get; }
@@ -48,7 +52,7 @@ namespace FotDG_calculator
      public bool TwoHanded { get; }
      public float Speed { get; }
      public float DamageMultiplier { get; }
-
+     public bool MeleeRanged { get; }
     }
 
     struct Ability
@@ -89,42 +93,42 @@ namespace FotDG_calculator
         private Professions[] myProfessionsArray = new Professions[constNrProfessions]
       {
   // 1 fist, 2 dagger, 3 fist_2H, 4 Wand, 5 Mace, 6 Sword, 7 BSword, 8 Axe, 9 BAxe, 10 Staff, 11 Bow, 12 BSword2H, 13 BAxe2H, 14 2HMace, 15 2HSword, 16 2HAxe, 17 Polearm, 18 Crossbow
-                  new Professions(1, 1, "Protector", true, "111011111001111110", "010000000000000000"),
-                  new Professions(2, 1, "Man at Arms", true, "111011111001111110", "010011111001111110"),
-                  new Professions(3, 1, "Paladin", false, "101011111001111110" , ""),
-                  new Professions(4, 2, "Assassin", true, "111011010000000000", "010000000000000000"),
-                  new Professions(5, 2, "Duelist", true, "111011010000000000" , "010000000000000000"),
-                  new Professions(6, 2, "Ranger", false, "101000000010000001" , ""),
-                  new Professions(7, 3, "Druid", false, "111110000100000000", ""),
-                  new Professions(8, 3, "Priestess", false, "111110000100000000", ""),
-                  new Professions(9, 3, "Necromancer", false, "111110000100000000", ""),
-                  new Professions(10, 4, "Elementalist", false, "111101000100000000", ""),
-                  new Professions(11, 4, "Warlock", false, "111101000100000000", ""),
-                  new Professions(12, 4, "Arcanist", false, "111101000100000000", "")
+                  new Professions(1, 1, "Protector", true, "111011111001111110", "010000000000000000", 1.2f, 0f),
+                  new Professions(2, 1, "Man at Arms", true, "111011111001111110", "010011111001111110", 1.2f, 0f),
+                  new Professions(3, 1, "Paladin", false, "101011111001111110" , "", 1.2f, 0f),
+                  new Professions(4, 2, "Assassin", true, "111011010000000000", "010000000000000000", 1.2f, 0f),
+                  new Professions(5, 2, "Duelist", true, "111011010000000000" , "010000000000000000", 1.2f, 0f),
+                  new Professions(6, 2, "Ranger", false, "101000000010000001" , "", 0f, 1.05f),
+                  new Professions(7, 3, "Druid", false, "111110000100000000", "", 1f, 0.85f),
+                  new Professions(8, 3, "Priestess", false, "111110000100000000", "", 1f, 0.85f ),
+                  new Professions(9, 3, "Necromancer", false, "111110000100000000", "", 1f, 0.85f),
+                  new Professions(10, 4, "Elementalist", false, "111101000100000000", "", 1f, 0.85f),
+                  new Professions(11, 4, "Warlock", false, "111101000100000000", "", 1f, 0.85f),
+                  new Professions(12, 4, "Arcanist", false, "111101000100000000", "", 1f, 0.85f)
       };
 
         const int constNrWeaponClasses = 18;
         private WeaponClass[] myWeaponClassArray = new WeaponClass[constNrWeaponClasses]
       {
   // 1 fist, 2 dagger, 3 fist_2H, 4 Wand, 5 Mace, 6 Sword, 7 BSword, 8 Axe, 9 BAxe, 10 Staff, 11 Bow, 12 BSword2H, 13 BAxe2H, 14 2HMace, 15 2HSword, 16 2HAxe, 17 Polearm, 18 Crossbow
-                  new WeaponClass(1, "Fist", false, 1.1f, 0.4f),    // 0.5 * 0.8
-                  new WeaponClass(2, "Dagger", false, 1.2f, 0.45f),  // 0.5 * 0.9     
-                  new WeaponClass(3, "Fist_2H", true, 1.1f, 0.675f),  // 0.5 * 0.9  * 1.5  
-                  new WeaponClass(4, "Wand", true, 3f, 0.7f),  // 1 * 0.7  
-                  new WeaponClass(5, "Mace", false, 1.5f, 1f),  // 1 * 1 
-                  new WeaponClass(6, "Sword", false, 1.6f, 1f),  // 1 * 1 
-                  new WeaponClass(7, "BSword", false, 1.8f, 1f),  // 1 * 1 
-                  new WeaponClass(8, "Axe", false, 1.8f, 1f),  // 1 * 1 
-                  new WeaponClass(9, "BAxe", false, 2f, 1f),  // 1 * 1 
-                  new WeaponClass(10, "Staff", true, 2.7f, 1.04f),  // 1.3 * 0.8
-                  new WeaponClass(11, "Bow", true, 2.3f, 1.17f),  // 1.3 * 0.9
-                  new WeaponClass(12, "BSword2H", true, 1.8f, 1.2f),  // 1 * 1 * 1.2 
-                  new WeaponClass(13, "BAxe2H", true, 2f, 1.2f),  // 1 * 1 * 1.2 
-                  new WeaponClass(14, "2HMace", true, 2f, 1.3f),  // 1 * 1.3
-                  new WeaponClass(15, "2HSword", true, 2.2f, 1.3f),  // 1 * 1.3
-                  new WeaponClass(15, "2HAxe", true, 2.4f, 1.3f),  // 1 * 1.3
-                  new WeaponClass(16, "Polearm", true, 2.5f, 1.3f),  // 1 * 1.3
-                  new WeaponClass(17, "Crossbow", true, 3.3f, 1.3f)  // 1 * 1.3
+                  new WeaponClass(1, "Fist", false, 1.1f, 0.4f, false),    // 0.5 * 0.8
+                  new WeaponClass(2, "Dagger", false, 1.2f, 0.45f, false),  // 0.5 * 0.9     
+                  new WeaponClass(3, "Fist_2H", true, 1.1f, 0.675f, false),  // 0.5 * 0.9  * 1.5  
+                  new WeaponClass(4, "Wand", true, 3f, 0.7f, true),  // 1 * 0.7  
+                  new WeaponClass(5, "Mace", false, 1.5f, 1f, false),  // 1 * 1 
+                  new WeaponClass(6, "Sword", false, 1.6f, 1f, false),  // 1 * 1 
+                  new WeaponClass(7, "BSword", false, 1.8f, 1f, false),  // 1 * 1 
+                  new WeaponClass(8, "Axe", false, 1.8f, 1f, false),  // 1 * 1 
+                  new WeaponClass(9, "BAxe", false, 2f, 1f, false),  // 1 * 1 
+                  new WeaponClass(10, "Staff", true, 2.7f, 1.04f, false),  // 1.3 * 0.8
+                  new WeaponClass(11, "Bow", true, 2.3f, 1.17f, true),  // 1.3 * 0.9
+                  new WeaponClass(12, "BSword2H", true, 1.8f, 1.2f, false),  // 1 * 1 * 1.2 
+                  new WeaponClass(13, "BAxe2H", true, 2f, 1.2f, false),  // 1 * 1 * 1.2 
+                  new WeaponClass(14, "2HMace", true, 2f, 1.3f, false),  // 1 * 1.3
+                  new WeaponClass(15, "2HSword", true, 2.2f, 1.3f, false),  // 1 * 1.3
+                  new WeaponClass(15, "2HAxe", true, 2.4f, 1.3f, false),  // 1 * 1.3
+                  new WeaponClass(16, "Polearm", true, 2.5f, 1.3f, false),  // 1 * 1.3
+                  new WeaponClass(17, "Crossbow", true, 3.3f, 1.3f, true)  // 1 * 1.3
       };
 
 
@@ -350,11 +354,6 @@ namespace FotDG_calculator
                         tempI--;
                     }
 
-
-                //NEED TO DO THAT CHECK FOR ABILITY COOLDOWN EVEN ACROSS MORE THAN 1 GAP
-                // HOW TO SOLVE THIS ?? 12 seconds thunder clap or even more for Deadly Assault
-                // update per ability total time it finishes last in array ?? how do I check this ?
-
                 CurrentAbility++; IntermediateCurentTime = 0;
                 if ((QueuedAbilityCastTimes[CurrentAbility - 1] * haste_MUL) >= TimeToBeat) { CurentTime += QueuedAbilityCastTimes[CurrentAbility - 1] * haste_MUL; continue; }
                 else
@@ -457,6 +456,20 @@ namespace FotDG_calculator
 
         private void RePopulateCombos()
         {
+           
+            // weapons and abilities comboboxes need to be reset by selection event on comboBox_Profession
+
+            //bellow char level // weapon levels
+            comboBox_Char_Lvl.SelectedIndex = 0;
+
+
+            comboBox_MH_W_QLTY.SelectedIndex = 3;
+            comboBox_OH_W_QLTY.SelectedIndex = 3;
+
+            comboBox_MH_WPN_Lvl.SelectedIndex = 0;
+            comboBox_OH_WPN_Lvl.SelectedIndex = 0;
+
+
             comboBox_Profession.Items.Clear();
             for (int i = 0; i < constNrProfessions; i++)
             {
@@ -464,12 +477,6 @@ namespace FotDG_calculator
             }
             comboBox_Profession.SelectedIndex = 0;
 
-            // weapons and abilities comboboxes need to be reset by selection event on comboBox_Profession
-
-            //bellow char level // weapon levels
-            comboBox_Char_Lvl.SelectedIndex = 0;
-            comboBox_MH_WPN_Lvl.SelectedIndex = 0;
-            comboBox_OH_WPN_Lvl.SelectedIndex = 0;
 
         }
 
@@ -525,6 +532,7 @@ namespace FotDG_calculator
                 comboBox_OH_WPN.Enabled = false;
             }
 
+            update_RAP();
 
             // clear checkboxes AND labels
             comboBox_Queued_Ability1.Items.Clear(); comboBox_Queued_Ability2.Items.Clear(); comboBox_Queued_Ability3.Items.Clear(); comboBox_Queued_Ability4.Items.Clear();
@@ -566,7 +574,9 @@ namespace FotDG_calculator
 
         private void checkBoxDualWield_CheckedChanged(object sender, EventArgs e)
         {
-            // CheckBox  checkBox = (CheckBox)sender;
+             CheckBox  checkBox = (CheckBox)sender;
+            if (checkBox.Checked) update_OH_W_WpAp();
+            update_AA_DPS(); ;
         }
 
         private void comboBox_MH_WPN_SelectedIndexChanged(object sender, EventArgs e)
@@ -592,6 +602,7 @@ namespace FotDG_calculator
                 MHID++;
             } while (MHID < constNrWeaponClasses);
 
+            textBox_MH_SPD.Text = myWeaponClassArray[MHID].Speed.ToString();
 
             if (myProfessionsArray[ProfessionID].DW)
             {
@@ -609,12 +620,72 @@ namespace FotDG_calculator
             }
             // NEED TO TRIGGER ABILITY COMBO EVENTS BECAUSE THEIR COOLDOWNS MIGHT DEPEND On WEAPON SPEED
 
+            update_MH_W_DPS(); update_RAP();
+
+
             comboBox_Queued_Ability1_SelectedIndexChanged(comboBox_Queued_Ability1, new EventArgs());
             comboBox_Queued_Ability2_SelectedIndexChanged(comboBox_Queued_Ability2, new EventArgs());
             comboBox_Queued_Ability3_SelectedIndexChanged(comboBox_Queued_Ability3, new EventArgs());
             comboBox_Queued_Ability4_SelectedIndexChanged(comboBox_Queued_Ability4, new EventArgs());
             comboBox_InstantAbilities_SelectedIndexChanged(comboBox_InstantAbilities, new EventArgs());
 
+        }
+
+        private void update_MH_W_DPS()
+        {
+
+            // calculate MH_W_DPS
+            //W_DPS = (5 + 0.5 * W_LVL) * W_QLTY * W_DamageMul * (0.85 + (W_SPD-1) * 0.02)
+
+        
+            if (!(comboBox_MH_W_QLTY.SelectedItem == null) && !(comboBox_MH_WPN_Lvl.SelectedItem == null))
+            {
+                if (!(comboBox_MH_WPN.SelectedItem == null))
+                    {
+                    //  textBox3.Text = float.Parse(comboBox_MH_W_QLTY.SelectedItem.ToString().Substring(0, 4)).ToString();
+
+                    //get selected weapon index 
+
+                    int MHID = 0;
+                    do
+                    {
+                        if (myWeaponClassArray[MHID].Name.Equals(comboBox_MH_WPN.SelectedItem)) break;
+
+                        MHID++;
+                    } while (MHID < constNrWeaponClasses);
+
+
+                    textBox_MH_W_DPS.Text = ((5f + 0.5f * (float.Parse(comboBox_MH_WPN_Lvl.SelectedItem.ToString()))) * float.Parse(comboBox_MH_W_QLTY.SelectedItem.ToString().Substring(0, 4)) * myWeaponClassArray[MHID].DamageMultiplier * (0.85 + (myWeaponClassArray[MHID].Speed  - 1) * 0.02)).ToString("0.00");
+                }
+            }
+
+        }
+
+        private void update_OH_W_DPS()
+        {
+
+            // calculate OH_W_DPS
+            //W_DPS = (5 + 0.5 * W_LVL) * W_QLTY * W_DamageMul * (0.85 + (W_SPD-1) * 0.02)
+            if (!(comboBox_OH_W_QLTY.SelectedItem == null) && !(comboBox_OH_WPN_Lvl.SelectedItem == null))
+            {
+                if (!(comboBox_OH_WPN.SelectedItem == null))
+                {
+                    //  textBox3.Text = float.Parse(comboBox_OH_W_QLTY.SelectedItem.ToString().Substring(0, 4)).ToString();
+
+                    //get selected weapon index 
+
+                    int OHID = 0;
+                    do
+                    {
+                        if (myWeaponClassArray[OHID].Name.Equals(comboBox_OH_WPN.SelectedItem)) break;
+
+                        OHID++;
+                    } while (OHID < constNrWeaponClasses);
+
+
+                    textBox_OH_W_DPS.Text = ((5f + 0.5f * (float.Parse(comboBox_OH_WPN_Lvl.SelectedItem.ToString()))) * float.Parse(comboBox_OH_W_QLTY.SelectedItem.ToString().Substring(0, 4)) * myWeaponClassArray[OHID].DamageMultiplier * (0.85 + (myWeaponClassArray[OHID].Speed - 1) * 0.02)).ToString("0.00");
+                }
+            }
         }
 
         private void comboBox_Queued_Ability1_SelectedIndexChanged(object sender, EventArgs e)
@@ -818,7 +889,8 @@ namespace FotDG_calculator
                 if (tempcheck < -100) tempcheck = -100;
                 textBox_Haste.Text = tempcheck.ToString();
                   }
-           
+
+            update_AA_DPS(); 
         }
 
         private void textBox_BonusAP_Leave(object sender, EventArgs e)
@@ -833,7 +905,8 @@ namespace FotDG_calculator
                 if (tempcheck < -20) tempcheck = -20;
                 textBox_BonusAP.Text = tempcheck.ToString();
             }
-
+            update_MH_W_WpAp(); update_RAP();
+            if (checkBoxDualWield.Checked) update_OH_W_WpAp();
         }
 
     
@@ -845,10 +918,286 @@ namespace FotDG_calculator
             if (!float.TryParse(selected, out tempcheck)) textBox_DamageBonus.Text = "0";
             else
             {
-                if (tempcheck > 5) tempcheck = 5;
-                if (tempcheck < -2) tempcheck = -2;
+                if (tempcheck > 400) tempcheck = 400;
+                if (tempcheck < -200) tempcheck = -200;
                 textBox_DamageBonus.Text = tempcheck.ToString();
             }
+
+            update_AA_DPS();
+        }
+
+        private void comboBox_OH_WPN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender; string selected = (string)comboBox.SelectedItem;
+
+            update_OH_W_DPS();
+
+            int OHWPNID = 0; 
+              
+                do
+                {
+                    if (myWeaponClassArray[OHWPNID].Name.Equals(comboBox_OH_WPN.SelectedItem)) break;
+                    OHWPNID++;
+                } while (OHWPNID < constNrWeaponClasses);
+
+
+                textBox_OH_SPD.Text = myWeaponClassArray[OHWPNID].Speed.ToString();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            update_OH_W_DPS();
+        }
+
+        private void label28_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox_MH_WPN_Lvl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            update_MH_W_DPS();
+        }
+
+        private void comboBox_MH_W_QLTY_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            update_MH_W_DPS();
+        }
+
+        private void comboBox_OH_WPN_Lvl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            update_OH_W_DPS();
+        }
+
+        private void textBox_MH_W_DPS_TextChanged(object sender, EventArgs e)
+        {
+         
+            update_MH_W_WpAp();
+
+        }
+
+        private void update_MH_W_WpAp()
+        {
+
+            int MHID = 0;
+            do
+            {
+                if (myWeaponClassArray[MHID].Name.Equals(comboBox_MH_WPN.SelectedItem)) break;
+
+                MHID++;
+            } while (MHID < constNrWeaponClasses);
+
+
+            // find the professsion index
+            int ProfessionID = 0;
+
+            do
+            {
+                if (myProfessionsArray[ProfessionID].Name.Equals(comboBox_Profession.SelectedItem)) break;
+                ProfessionID++;
+            } while (ProfessionID < constNrProfessions);
+
+
+            if (!(textBox_MH_W_DPS.Text == null) && !(comboBox_Char_Lvl.SelectedItem == null))
+            {
+                if (!(textBox_BonusAP.Text == null) && !(comboBox_Profession.SelectedItem == null))
+                {
+                    // WpAp = W_SPD * (W_DPS * 0.9 + BaseAP * 0.1) + BonusAP * 0.5
+
+                    if (myWeaponClassArray[MHID].MeleeRanged)
+                    {
+                        textBox_MH_WpAp.Text = (myWeaponClassArray[MHID].Speed * (float.Parse(textBox_MH_W_DPS.Text) * 0.9 + (5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) * myProfessionsArray[ProfessionID].RAP_Mul * 0.1) + float.Parse(textBox_BonusAP.Text) * 0.5f).ToString("0.00");
+                    }
+                    else
+                    {
+                        textBox_MH_WpAp.Text = (myWeaponClassArray[MHID].Speed * (float.Parse(textBox_MH_W_DPS.Text) * 0.9 + (5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) * myProfessionsArray[ProfessionID].AP_Mul * 0.1) + float.Parse(textBox_BonusAP.Text) * 0.5f).ToString("0.00");
+                    }
+                }
+            }
+
+        }
+
+        private void update_OH_W_WpAp()
+        {
+
+            int OHID = 0;
+            do
+            {
+                if (myWeaponClassArray[OHID].Name.Equals(comboBox_OH_WPN.SelectedItem)) break;
+
+                OHID++;
+            } while (OHID < constNrWeaponClasses);
+
+
+            // find the professsion index
+            int ProfessionID = 0;
+
+            do
+            {
+                if (myProfessionsArray[ProfessionID].Name.Equals(comboBox_Profession.SelectedItem)) break;
+                ProfessionID++;
+            } while (ProfessionID < constNrProfessions);
+
+
+            if (!(textBox_OH_W_DPS.Text == null) && !(comboBox_Char_Lvl.SelectedItem == null))
+            {
+                if (!(textBox_BonusAP.Text == null) && !(comboBox_Profession.SelectedItem == null))
+                {
+                    // WpAp = W_SPD * (W_DPS * 0.9 + BaseAP * 0.1) + BonusAP * 0.5
+
+                  textBox_OH_WpAp.Text = (myWeaponClassArray[OHID].Speed * (float.Parse(textBox_OH_W_DPS.Text) * 0.9 + (5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) * myProfessionsArray[ProfessionID].AP_Mul * 0.1) + float.Parse(textBox_BonusAP.Text) * 0.5f).ToString("0.00");
+                   
+                }
+            }
+
+        }
+
+        private void comboBox_Char_Lvl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            update_MH_W_WpAp(); update_RAP();
+            if (checkBoxDualWield.Checked) update_OH_W_WpAp();
+        }
+
+        private void textBox_BonusAP_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void textBox_OH_WpAp_TextChanged(object sender, EventArgs e)
+        {
+            update_AA_DPS();
+        }
+
+        private void textBox_OH_W_DPS_TextChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDualWield.Checked) update_OH_W_WpAp();
+        }
+
+        private void textBox_MH_WpAp_TextChanged(object sender, EventArgs e)
+        {
+            update_AA_DPS();
+        }
+
+        private void textBox_DamageBonus_TextChanged(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void textBox_Haste_TextChanged(object sender, EventArgs e)
+        {
+  
+        }
+
+        private void update_RAP()
+        {
+            // (5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) + float.Parse(textBox_BonusAP.Text)
+
+            int MHID = 0;
+            do
+            {
+                if (myWeaponClassArray[MHID].Name.Equals(comboBox_MH_WPN.SelectedItem)) break;
+
+                MHID++;
+            } while (MHID < constNrWeaponClasses);
+
+
+            // find the professsion index
+            int ProfessionID = 0;
+
+            do
+            {
+                if (myProfessionsArray[ProfessionID].Name.Equals(comboBox_Profession.SelectedItem)) break;
+                ProfessionID++;
+            } while (ProfessionID < constNrProfessions);
+
+            if (!(comboBox_Char_Lvl.SelectedItem == null) && !(comboBox_Profession.SelectedItem == null))
+            {
+                if (!(textBox_BonusAP.Text == null) && (!(comboBox_MH_WPN.SelectedItem == null)))
+                { 
+
+                if (myWeaponClassArray[MHID].MeleeRanged)
+                {
+                    textBox_R_AP.Text = ((5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) * myProfessionsArray[ProfessionID].RAP_Mul + float.Parse(textBox_BonusAP.Text)).ToString("0.00");
+                }
+                else
+                {
+                    textBox_R_AP.Text = ((5 + 0.5 * float.Parse(comboBox_Char_Lvl.SelectedItem.ToString())) * myProfessionsArray[ProfessionID].AP_Mul + float.Parse(textBox_BonusAP.Text)).ToString("0.00");
+                }
+            }
+        }
+
+        }
+
+        private void update_AA_DPS()
+        {
+          
+                   if (!(textBox_MH_WpAp == null) && (!(textBox_DamageBonus.Text == null)))
+                 {
+                if (!(textBox_Haste.Text == null))
+                    {
+
+                    // NEED TO GET HASTE multiplier once and have it . 
+                    float hastepercent, haste_MUL;
+                    hastepercent = float.Parse(textBox_Haste.Text);
+                    if (hastepercent < 0) haste_MUL = 1 - hastepercent / 100; else haste_MUL = 1 / (1 + hastepercent / 100);
+
+
+                    int MHID = 0;
+                    do
+                    {
+                        if (myWeaponClassArray[MHID].Name.Equals(comboBox_MH_WPN.SelectedItem)) break;
+
+                        MHID++;
+                    } while (MHID < constNrWeaponClasses);
+
+
+
+                    if (checkBoxDualWield.Checked) if (!(textBox_OH_WpAp == null))
+                        {
+
+                            // update DW DPS
+                            //  Raw AA DPS = ((MH_WpAp + OH_WpAp * 0.5) * (1 + SumDamBonus)) / (( MH_W_SPD + OH_W_SPD ) *  0.5 * Haste_Mul )
+
+
+                            int OHID = 0;
+                            do
+                            {
+                                if (myWeaponClassArray[OHID].Name.Equals(comboBox_OH_WPN.SelectedItem)) break;
+
+                                OHID++;
+                            } while (OHID < constNrWeaponClasses);
+
+
+
+                    textBox_AA_DPS.Text = ((float.Parse(textBox_MH_WpAp.Text) + float.Parse(textBox_OH_WpAp.Text) * 0.5f ) * (1 + float.Parse(textBox_DamageBonus.Text) / 100) / ((myWeaponClassArray[MHID].Speed + myWeaponClassArray[OHID].Speed) * 0.5f * haste_MUL)).ToString("0.00");
+                        }
+                        else { }
+                    else {
+                        // update 1 H DPS
+                        // Raw AA DPS = (MH_WpAp * (1 + SumDamBonus)) / (MH_W_SPD * Haste_Mul) 
+
+
+                        textBox_AA_DPS.Text = (float.Parse(textBox_MH_WpAp.Text) * (1 + float.Parse(textBox_DamageBonus.Text)/100)/(myWeaponClassArray[MHID].Speed * haste_MUL)).ToString("0.00");
+                           }        
+
+                        }
+                 }
+
+        }
+
+        private void textBox_AA_DPS_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
