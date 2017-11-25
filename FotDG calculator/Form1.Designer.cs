@@ -155,6 +155,7 @@
             // 
             // comboBox_Profession
             // 
+            this.comboBox_Profession.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Profession.FormattingEnabled = true;
             this.comboBox_Profession.Location = new System.Drawing.Point(163, 21);
             this.comboBox_Profession.Name = "comboBox_Profession";
@@ -164,6 +165,7 @@
             // 
             // comboBox_MH_WPN
             // 
+            this.comboBox_MH_WPN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_MH_WPN.FormattingEnabled = true;
             this.comboBox_MH_WPN.Location = new System.Drawing.Point(119, 21);
             this.comboBox_MH_WPN.Name = "comboBox_MH_WPN";
@@ -173,6 +175,7 @@
             // 
             // comboBox_OH_WPN
             // 
+            this.comboBox_OH_WPN.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_OH_WPN.Enabled = false;
             this.comboBox_OH_WPN.FormattingEnabled = true;
             this.comboBox_OH_WPN.Location = new System.Drawing.Point(115, 24);
@@ -210,6 +213,7 @@
             // 
             // comboBox_Queued_Ability1
             // 
+            this.comboBox_Queued_Ability1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Queued_Ability1.FormattingEnabled = true;
             this.comboBox_Queued_Ability1.Location = new System.Drawing.Point(8, 33);
             this.comboBox_Queued_Ability1.Name = "comboBox_Queued_Ability1";
@@ -219,6 +223,7 @@
             // 
             // comboBox_Queued_Ability2
             // 
+            this.comboBox_Queued_Ability2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Queued_Ability2.FormattingEnabled = true;
             this.comboBox_Queued_Ability2.Location = new System.Drawing.Point(6, 36);
             this.comboBox_Queued_Ability2.Name = "comboBox_Queued_Ability2";
@@ -228,6 +233,7 @@
             // 
             // comboBox_Queued_Ability3
             // 
+            this.comboBox_Queued_Ability3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Queued_Ability3.FormattingEnabled = true;
             this.comboBox_Queued_Ability3.Location = new System.Drawing.Point(12, 39);
             this.comboBox_Queued_Ability3.Name = "comboBox_Queued_Ability3";
@@ -275,6 +281,7 @@
             // 
             // comboBox_Queued_Ability4
             // 
+            this.comboBox_Queued_Ability4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Queued_Ability4.FormattingEnabled = true;
             this.comboBox_Queued_Ability4.Location = new System.Drawing.Point(8, 30);
             this.comboBox_Queued_Ability4.Name = "comboBox_Queued_Ability4";
@@ -340,6 +347,7 @@
             // 
             // comboBox_Char_Lvl
             // 
+            this.comboBox_Char_Lvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Char_Lvl.FormattingEnabled = true;
             this.comboBox_Char_Lvl.Items.AddRange(new object[] {
             "1",
@@ -370,6 +378,7 @@
             // 
             // comboBox_MH_WPN_Lvl
             // 
+            this.comboBox_MH_WPN_Lvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_MH_WPN_Lvl.FormattingEnabled = true;
             this.comboBox_MH_WPN_Lvl.Items.AddRange(new object[] {
             "1",
@@ -400,6 +409,7 @@
             // 
             // comboBox_OH_WPN_Lvl
             // 
+            this.comboBox_OH_WPN_Lvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_OH_WPN_Lvl.FormattingEnabled = true;
             this.comboBox_OH_WPN_Lvl.Items.AddRange(new object[] {
             "1",
@@ -635,7 +645,7 @@
             // labelInstantCooldown
             // 
             this.labelInstantCooldown.AutoSize = true;
-            this.labelInstantCooldown.Location = new System.Drawing.Point(32, 85);
+            this.labelInstantCooldown.Location = new System.Drawing.Point(12, 85);
             this.labelInstantCooldown.Name = "labelInstantCooldown";
             this.labelInstantCooldown.Size = new System.Drawing.Size(54, 13);
             this.labelInstantCooldown.TabIndex = 51;
@@ -644,7 +654,7 @@
             // labelInstantDamageFormula
             // 
             this.labelInstantDamageFormula.AutoSize = true;
-            this.labelInstantDamageFormula.Location = new System.Drawing.Point(26, 61);
+            this.labelInstantDamageFormula.Location = new System.Drawing.Point(6, 61);
             this.labelInstantDamageFormula.Name = "labelInstantDamageFormula";
             this.labelInstantDamageFormula.Size = new System.Drawing.Size(135, 13);
             this.labelInstantDamageFormula.TabIndex = 49;
@@ -661,6 +671,7 @@
             // 
             // comboBox_InstantAbilities
             // 
+            this.comboBox_InstantAbilities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_InstantAbilities.FormattingEnabled = true;
             this.comboBox_InstantAbilities.Location = new System.Drawing.Point(29, 20);
             this.comboBox_InstantAbilities.Name = "comboBox_InstantAbilities";
@@ -707,7 +718,7 @@
             // labelInstantThreatMul
             // 
             this.labelInstantThreatMul.AutoSize = true;
-            this.labelInstantThreatMul.Location = new System.Drawing.Point(32, 114);
+            this.labelInstantThreatMul.Location = new System.Drawing.Point(12, 114);
             this.labelInstantThreatMul.Name = "labelInstantThreatMul";
             this.labelInstantThreatMul.Size = new System.Drawing.Size(55, 13);
             this.labelInstantThreatMul.TabIndex = 56;
@@ -752,7 +763,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(263, 61);
+            this.label19.Location = new System.Drawing.Point(314, 61);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(135, 13);
             this.label19.TabIndex = 61;
@@ -761,7 +772,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(263, 85);
+            this.label20.Location = new System.Drawing.Point(314, 82);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(54, 13);
             this.label20.TabIndex = 62;
@@ -770,7 +781,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(263, 114);
+            this.label21.Location = new System.Drawing.Point(314, 111);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(55, 13);
             this.label21.TabIndex = 63;
@@ -909,6 +920,7 @@
             // comboBox_OH_W_QLTY
             // 
             this.comboBox_OH_W_QLTY.DisplayMember = "3";
+            this.comboBox_OH_W_QLTY.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_OH_W_QLTY.FormattingEnabled = true;
             this.comboBox_OH_W_QLTY.Items.AddRange(new object[] {
             "0.80 Garbage (gray)",
@@ -955,6 +967,7 @@
             // comboBox_MH_W_QLTY
             // 
             this.comboBox_MH_W_QLTY.DisplayMember = "3";
+            this.comboBox_MH_W_QLTY.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_MH_W_QLTY.FormattingEnabled = true;
             this.comboBox_MH_W_QLTY.Items.AddRange(new object[] {
             "0.80 Garbage (gray)",
@@ -1027,7 +1040,7 @@
             this.groupBox4.Controls.Add(this.comboBox_InstantAbilities);
             this.groupBox4.Location = new System.Drawing.Point(930, -2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(409, 212);
+            this.groupBox4.Size = new System.Drawing.Size(458, 212);
             this.groupBox4.TabIndex = 79;
             this.groupBox4.TabStop = false;
             // 
@@ -1143,7 +1156,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1873, 856);
+            this.ClientSize = new System.Drawing.Size(1676, 856);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.label35);
             this.Controls.Add(this.label34);

@@ -12,7 +12,7 @@ namespace FotDG_calculator
 {
     struct Professions
     {
-        public Professions(int IDI, int ClassI,string NameI, bool DWI, string MHI, string OHI, float AP_MulI, float RAP_MUlI)
+        public Professions(int IDI, int ClassI, string NameI, bool DWI, string MHI, string OHI, float AP_MulI, float RAP_MUlI)
         {
             ID = IDI;
             Class = ClassI;
@@ -57,11 +57,12 @@ namespace FotDG_calculator
 
     struct Ability
     {
-        public Ability(string NameI, bool InstantI, int ProfessionIDI, string AbilityFormulaI, bool CastTypeI, float CastDurationWeaponSPDMulI, float FixedCastDurationI, bool CooldownTypeI, float CooldownDurationWeaponSPDMulI, float FixedCooldownDurationI, float ThreatMulI)
+        public Ability(string NameI, bool InstantI, int ProfessionIDI, int ClassI, string AbilityFormulaI, bool CastTypeI, float CastDurationWeaponSPDMulI, float FixedCastDurationI, bool CooldownTypeI, float CooldownDurationWeaponSPDMulI, float FixedCooldownDurationI, float ThreatMulI)
         {
             Name = NameI;
             Instant = InstantI;
             ProfessionID = ProfessionIDI;
+            Class = ClassI;
             AbilityFormula = AbilityFormulaI;
             CastType = CastTypeI;
             CastDurationWeaponSPDMul = CastDurationWeaponSPDMulI;
@@ -75,6 +76,7 @@ namespace FotDG_calculator
         public string Name { get; }
         public bool Instant { get; }
         public int ProfessionID { get; }
+        public int Class { get; }
         public string AbilityFormula { get; }
         public bool CastType { get; }
         public float CastDurationWeaponSPDMul { get; }
@@ -132,66 +134,162 @@ namespace FotDG_calculator
       };
 
 
-        const int constNrAbilities = 44;
+        const int constNrAbilities = 135;
         private Ability[] myAbilityArray = new Ability[constNrAbilities]
       {
 //1 Protector 
-                  new Ability("Thunder Clap", false, 1, "AP * 0.75", false, 0f, 2f, false, 0f, 12f, 10f) ,
-                  new Ability("Kick", true, 1, "no damage; Interrupt; Aggro += Lvl + 5", false, 0f, 0f, false, 0f, 20f, 0f),
-                  new Ability("Rend", false, 1, "WpAp * 0.5 and (WpAp * 1.5 + AP * 0.5) as DOT", true, 1f, 0f, true, 3f, 0f, 4f),
-//2 Man at Arms
-                  new Ability("Hard Strike", false, 2, "WpAp * 1.3", true, 1f, 0f, true, 3f, 0f , 1f),
-                  new Ability("Deadly Assault", false, 2, "AP * 1.35 + WpAp * 0.7", true, 1f, 0f, true, 6f, 0f , 1f),
-//3 Paladin
-                  new Ability("Hammer of Justice", false, 3, "(SP * AbSpeed + WpAp) *0.54", true, 1f, 0f, false, 0f, 6f, 1f),
-                  new Ability("Divine Punishment", true, 3, "SP * 1.5", false, 1f, 0f, false, 0f, 12f , 8f),
-                  new Ability("Crusader Assault", false, 3, "WpAp", true, 1.5f, 0f, false, 0f, 6f , 1f),
-//4 Assassin
-                  new Ability("Dreadful Jab", false, 4, "WpAp * 1.35", true, 1f, 0f, true, 3f, 0f , 1f),
-                  new Ability("Swift Knife", true, 4, "AP * 1.08 * (1 + NbCombo * 0.2)", false, 0f, 0f, false, 0f, 18f, 1f),
-                  new Ability("Execute", false, 4, "WpAp * 1.8 * (1 + NbCombo * 0.2)", true, 1.5f, 0f, false, 0f, 12f, 1f),
-                  new Ability("Sweeping Blow", false, 5, "WpAp * 0.4 + AP * 0.45", true, 1.5f, 0f, false, 0f, 6f, 6f),
-//5 Duelist
-                  new Ability("Lunge", false, 5, "(WpAp + AP) * 0.5 * (1 + NbCombo * 0.40)", true, 1.5f, 0f, false, 0f, 12f, 2.5f),
-                  new Ability("Pommel", true, 5, "no damage; Interrupt; Aggro += Lvl + 5", false, 0f, 0f, false, 0f, 20f, 0f),
-//6 Ranger
-                  new Ability("Instinct Shot", false, 6, "WpAp * 1.15", true, 1.25f, 0f, true, 2.5f, 0f, 1f),
-                  new Ability("Double Shot", false, 6, "WpAp * 0.9", true, 1.25f, 0f, true, 2.5f, 0f, 1f),
-                  new Ability("Sniper Shot", false, 6, "WpAp * 1.2 * (1 + NbCombo * 0.15)", true, 1.5f, 0f, false, 0f, 12f, 1f),
-//7 Druid
-                  new Ability("Heal", false, 7, "SP * 3.6", false, 0f, 1.5f, false, 0f, 6f , 0.4f),
-                  new Ability("Regrowth", false, 7, "(SP * 6) / NbTick", false, 0f, 3f, false, 0f, 6f , 0.4f),
-                  new Ability("Lifebloom", false, 7, "(SP * 3 * NbStack) / NbTick and SP * 2.4 * NbStack", false, 0f, 2f, false, 0f, 6f, 0.4f),
-                  new Ability("Dance of Gaia", false, 7, "(SP * 5.1) / NbTick", false, 0f, 8f, false, 0f, 6f, 0.4f),
-//8 Priest
-                  new Ability("Righteous Shield1", false, 8, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 12f, 0.4f),
-                  new Ability("Righteous Shield2", false, 8, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 9f, 0.4f),
-                  new Ability("Righteous Shield3", false, 8, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 6f, 0.4f),
-                  new Ability("Flash Heal", false, 8, "SP * 3", false, 0f, 0.5f, false, 0f, 6f , 0.4f),
-                  new Ability("Renew", false, 8, "(SP * 3.6) / 3", false, 0f, 2f, false, 0f, 6f , 0.4f),
-//9 Necromancer
-                  new Ability("Soul Sucking", false, 9, "SP * 1.2 and SP * 3.42 heal", false, 0f, 4f, false, 0f, 6f, 1.4f),
-                  new Ability("Eat My Flesh", false, 9, "SP * 2.52 and SP * 1.26 harm", false, 0f, 2f, false, 0f, 6f, 0.4f),
-//10 Elementalist
-                  new Ability("Scorch", false, 10, "SP * 1.86 and (SP * 1.89) / NbTick DOT", false, 0f, 3f, false, 0f, 6f, 1f),
-                  new Ability("Frostbolt1", false, 10, "SP * 3.125", false, 0f, 2.5f, false, 0f, 6f, 1f),
-                  new Ability("Frostbolt2", false, 10, "SP * 3.125", false, 0f, 1.5f, false, 0f, 6f, 1f),
-                  new Ability("Frostbolt3", false, 10, "SP * 3.125", false, 0f, 0.5f, false, 0f, 6f, 1f),
-//11 Warlock
-                  new Ability("Shadowball1", false, 11, "SP * 3.78", false, 0f, 4f, false, 0f, 6f, 1f),
-                  new Ability("Shadowball2", false, 11, "SP * 3.78", false, 0f, 3f, false, 0f, 6f, 1f),
-                  new Ability("Shadowball3", false, 11, "SP * 3.78", false, 0f, 2f, false, 0f, 6f, 1f),
-                  new Ability("Torment", false, 11, "(SP * 4.08) / NbTick", false, 0f, 2.5f, false, 0f, 6f, 1f),
-                  new Ability("DirePlague", false, 11, "(SP * 4.5) * Lerp(0.5, 1.5, Time) / NbTick", false, 0f, 5f, false, 0f, 6f, 1f),
-//12 Arcanist
-                  new Ability("Arcane Burst1", false, 12, "(SP * 4.2) / NbTick", false, 0f, 4f, false, 0f, 6f, 1f),
-                  new Ability("Arcane Burst2", false, 12, "(SP * 4.2) / NbTick", false, 0f, 3f, false, 0f, 6f, 1f),
-                  new Ability("Arcane Burst3", false, 12, "(SP * 4.2) / NbTick", false, 0f, 2f, false, 0f, 6f, 1f),
-                  new Ability("Arcane Rupture1", false, 12, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 12f, 1f),
-                  new Ability("Arcane Rupture2", false, 12, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 11f, 1f),
-                  new Ability("Arcane Rupture3", false, 12, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 10f, 1f),
-                  new Ability("Arcane Rupture4", false, 12, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 9f, 1f)
+                  new Ability("Kick", true, 1, 0, "Interrupt; Aggro += Lvl + 5 ; AUTOHIT", false, 0f, 0f, false, 0f, 20f, 0f),
+                  new Ability("Thunder Clap", false, 1, 1, "AP * 0.75 ; AOE AUTOHIT !!", false, 0f, 2f, false, 0f, 12f, 10f) ,
+                  new Ability("Rend", false, 1, 1, "WpAp * 0.5 and (WpAp * 1.5 + AP * 0.5) as DOT", true, 1f, 0f, true, 3f, 0f, 4f),
+                  new Ability("Rend Bleed", true, 1, 1, "(WpAp * 1.5 + AP * 0.5) / NbTick", false, 0f, 0f, false, 0f, 0f, 4f),
+                  new Ability("Taunt", true, 1, 1, "single target TAUNT AUTOHIT; Aggro += Lvl + 5", false, 0f, 0f, false, 0f, 20f, 0f),
+                  new Ability("Last Stand", true, 1, 1, "TotalHP *= 1.3 ; CurHP += 0.3 * TotalHP", false, 0f, 0f, false, 0f, 150f, 0f),
+                  new Ability("Rage Yell", true, 1, 1, "AOE TAUNT AUTOHIT; Self *0,95 DR; +25% Damage for 20s", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Devastate", false, 1, 1, "WpAp * 1; Target Armor * (1 - 0.1 * NrStacks)", true, 1f, 0f, true, 3f, 0f, 1.5f),
+                  new Ability("Retaliate", true, 1, 1, "AP * 0.5 * LvL", false, 0f, 0f, false, 0f, 0f, 1.5f),
+                  new Ability("Spell Deflect", true, 1, 1, "spell deflect", false, 0f, 0f, false, 0f, 25f, 0f),
+                  new Ability("Pulse Wave", false, 1, 1, "AP * 0.8 + WpAp * 0.6; AOE AUTOHIT; 3s stun", false, 0f, 3f, false, 0f, 35f, 7f),
+                  new Ability("Shield Wall", true, 1, 1, "Self *0.6 DR 12s", false, 0f, 0f, false, 0f, 180f, 0f),
 
+//2 Man at Arms
+                  new Ability("Swipe", false, 2, 0, "WpAp * 0.75 AOE", true, 2f, 0f, false, 0f, 12f , 1f),
+                  new Ability("Hard Strike", false, 2, 1, "WpAp * 1.3", true, 1f, 0f, true, 3f, 0f , 1f),
+                  new Ability("Deadly Assault", false, 2, 1, "AP * 1.35 + WpAp * 0.7", true, 1f, 0f, true, 6f, 0f , 1f),
+                  new Ability("Deep Wounds Bleed", true, 2, 1, "ParentDmg * TalentX * Stack", false, 0f, 0f, false, 0f, 0f, 1f),
+                  new Ability("War Cry", true, 2, 1, "AP Bonus += AP * 0.3 * Stacks", false, 0f, 0f, false, 0f, 180f, 0f),
+                  new Ability("Overwhelming Blow", false, 2, 1, "WpAp * 1.25; Target Dodge *= 0.5, Parry *= 0.5", true, 1.5f, 0f, false, 0f, 12f , 1f),
+                  new Ability("Lucky Strike", true, 2, 1, "Self Crit% + = 25 for 15s", false, 0f, 0f, false, 0f, 180f, 0f),
+                  new Ability("Live by The Sword", true, 2, 1, "Self Parry% += 50 for 12s", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Berserk", true, 2, 1, "Self Damage +25% for 20s", false, 0f, 0f, false, 0f, 150f, 0f),
+
+//3 Paladin
+                  new Ability("Divine Punishment", true, 3, 0, "SP * 1.5", false, 0f, 0f, false, 0f, 12f , 8f),
+                  new Ability("Hammer of Justice", false, 3, 1, "(SP * AbSpeed + WpAp) *0.54", true, 1f, 0f, false, 0f, 6f, 1f),
+                  new Ability("Crusader Assault", false, 3, 1, "WpAp * 1 vs primary; WpAp * 0.75 vs rest", true, 1.5f, 0f, false, 0f, 6f , 1f),
+                  new Ability("Seal of Contrition", false, 3, 1, "(SP * 3.375) / NbTick; Opt +2/4/6 Crit vs target", false, 0f, 2.5f, false, 0f, 20f , 1f),
+                  new Ability("Celestial Blindness", true, 3, 1, "Self AGGRO *= 0.25", false, 0f, 0f, false, 0f, 45f , 0f),
+                  new Ability("Holly Barrier", true, 3, 1, "Self Rez += 25% for 5s", false, 0f, 0f, false, 0f, 30f , 0f),
+                  new Ability("Holier Barrier", true, 3, 1, "Self Rez += 50% for 6s", false, 0f, 0f, false, 0f, 30f , 0f),
+                  new Ability("Saintly Sacrifice", true, 3, 1, "Ally 0.25 damage to paladin for 15s", false, 0f, 0f, false, 0f, 90f , 0f),
+                  new Ability("Angel's Protection", true, 3, 1, "Ally Damage Immunity for 8s", false, 0f, 0f, false, 0f, 90f , 0f),
+                  new Ability("Seraphic Intervention", true, 3, 1, "Ally Resurrect Downed", false, 0f, 0f, false, 0f, 300f , 0f),
+
+//4 Assassin
+                  new Ability("Dreadful Jab", false, 4, 0, "MH WpAp * 1.35; OH WpAp * 0.5 * Side Attack; Streak+=1", true, 1f, 0f, true, 3f, 0f, 1f),
+                  new Ability("Swift Knife", true, 4, 2, "AP * 1.08 * (1 + NbCombo * 0.2)", false, 0f, 0f, false, 0f, 18f, 1f),
+                  new Ability("Execute", false, 4, 2, "WpAp * 1.8 * (1 + NbCombo * 0.2)", true, 1.5f, 0f, false, 0f, 12f, 1f),
+                  new Ability("Deadly Poison", true, 4, 2, "(AP * 0.885 * NbStack) / NbTick; Nature", false, 0f, 0f, false, 0f, 0f, 1f),
+                  new Ability("Mug", false, 4, 2, "MH WpAp * 1.035; OH WpAp * 1; Streak+=2", true, 1.25f, 0f, false, 0f, 12f, 1f),
+                  new Ability("Killing Spree", true, 4, 2, "Self Haste% += 30 for 6 * (NrStreak +1)s", false, 0f, 0f, false, 0f, 20f, 0f),
+                  new Ability("Fade in the Shadows", true, 4, 2, "Self Dodge% += 30 for 15s", false, 0f, 0f, false, 0f, 180f, 0f),
+                  new Ability("Thousand Knives", false, 4, 2, "WpAp * 0.75 * (1 + NbCombo * 0.2) AOE", true, 2f, 0f, false, 0f, 12f, 1f),
+                  new Ability("Now or Never", true, 4, 2, "Self Streak = 5", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Hired Hitman", true, 4, 2, "Self AGGRO += *0.35; Hitman Aggro += *0.65 for 12s", false, 0f, 0f, false, 0f, 90f, 0f),
+                  
+                  
+//5 Duelist
+                  new Ability("Pommel", true, 5, 0, "no damage; Interrupt; Aggro += Lvl + 5; Streak+=1", false, 0f, 0f, false, 0f, 20f, 0f),
+                  new Ability("Sweeping Blow", false, 5, 2, "WpAp * 0.4 + AP * 0.45; *1 | *0.5; AOE AUTOHIT; Streak+=1", true, 1.5f, 0f, false, 0f, 6f, 6f),
+                  new Ability("Deep Cut Bleed", true, 5, 2, "Sweep Blow: CallerDmg / 3 + 0.5", false, 0f, 0f, false, 0f, 0f, 7f),
+                  new Ability("Lunge", false, 5, 2, "(WpAp + AP) * 0.5 * (1 + NbCombo * 0.40)", true, 1.5f, 0f, false, 0f, 12f, 2.5f),
+                  new Ability("Invitation", true, 5, 2, "single target TAUNT AUTOHIT; Aggro += Lvl + 5; Streak+=1", false, 0f, 0f, false, 0f, 25f, 0f),
+                  new Ability("Dual Strike", false, 5, 2, "MH WpAp * 1; (OH WpAp * 1 and *5 threat); Streak+=2", true, 1.25f, 0f, false, 0f, 12f, 2.5f),
+                  new Ability("Recovery in Blood", true, 5, 2, "DOT = TH * 0.03 | streak extends duration ..", false, 0f, 0f, false, 0f, 75f, 0f),
+                  new Ability("Piercing Strike", false, 5, 2, "MH (WpAp + AP) * 0.45;OH (WpAp + AP * 0.5) * 0.4;* (1 + NbCombo * 0.3); Nature", true, 1.5f, 0f, false, 0f, 12f, 2.5f),
+                  new Ability("Blade Dancer", true, 5, 2, "Self Dodge% += 45; DR *0.85 for 12s", false, 0f, 0f, false, 0f, 120f, 0f),
+                 
+//6 Ranger
+                  new Ability("Sniper Shot", false, 6, 0, "WpAp * 1.2 * (1 + NbCombo * 0.15)", true, 1.5f, 0f, false, 0f, 12f, 1f),
+                  new Ability("Instinct Shot", false, 6, 2, "WpAp * 1.15; Streak+=1", true, 1.25f, 0f, true, 2.5f, 0f, 1f),
+                  new Ability("Double Shot", false, 6, 2, "WpAp * 0.9; WpAP * 0.75 secondary'; Streak+=2", true, 1.25f, 0f, true, 2.5f, 0f, 1f),
+                  new Ability("Hunter Tracking", true, 6, 2, "Self Passive Threat *0.95; Visual Smoke for 30s", false, 0f, 0f, false, 0f, 90f, 0f),
+                  new Ability("Volley of Arrows", false, 6, 2, "WpAp * 0.6 * (1 + NbCombo * 0.2) / NbTick", false, 0f, 8f, false, 0f, 12f, 1f),
+                  new Ability("Hemmorage Bleed", true, 6, 2, "ParentDmg * TalentX", false, 0f, 0f, false, 0f, 0f, 1f),
+                  new Ability("Warning Shot", true, 6, 2, "single target TAUNT AUTOHIT; Aggro += Lvl + 5; Streak+=1", false, 0f, 0f, false, 0f, 30f, 0f),
+                  new Ability("Playing Possum", true, 6, 2, "Self AGGRO *= 0; Self Stun for 2s", false, 0f, 0f, false, 0f, 60f , 0f),
+                  new Ability("Sidetrack", true, 6, 2, "Self AGGRO += *0.6; Hitman Aggro += *0.4 for 9s", false, 0f, 0f, false, 0f, 60f, 0f),
+                  new Ability("Rumble", true, 6, 2, "Self *0.4 DR 8s; Self Stun 8s", false, 0f, 0f, false, 0f, 180f, 0f),
+                  new Ability("Night of The Hunter", true, 6, 2, "Self Haste% += 40; *0.5 DR for 15s", false, 0f, 0f, false, 0f, 120f, 0f),
+//7 Druid
+                  new Ability("Regrowth", false, 7, 0, "(SP * 6) / NbTick", false, 0f, 3f, false, 0f, 6f , 0.4f),
+                  new Ability("Heal", false, 7, 3, "SP * 3.6", false, 0f, 1.5f, false, 0f, 6f , 0.4f),
+                  new Ability("Lifebloom", false, 7, 3, "(SP * 3 * NbStack) / NbTick and SP * 2.4 * NbStack", false, 0f, 2f, false, 0f, 6f, 0.4f),
+                  new Ability("Savior", true, 7, 3, "BaseHP * 0.6; (BH without *0.8 prof_mul)", false, 0f, 0f, false, 0f, 180f, 0.4f),
+                  new Ability("Dance of Gaia", false, 7, 3, "(SP * 5.1) / NbTick", false, 0f, 8f, false, 0f, 6f, 0.4f),
+                  new Ability("Rain of Life", true, 7, 3, "SP * 7.8 * Lerp(1.5, 0.5, Time) / NbTick ALL over 10s", false, 0f, 0f, false, 0f, 240f, 0.4f),
+                  new Ability("Dispel", true, 7, 3, "Dispel 1 effect from ally", false, 0f, 0f, false, 0f, 60f, 0f),
+                  new Ability("Tree Form", true, 7, 3, "Self Healing +0.15% and *0.9 DR for 20s", false, 0f, 0f, false, 0f, 120f, 0f),
+//8 Priest
+                  new Ability("Righteous Shield1", false, 8, 0, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 12f, 0.4f),
+                  new Ability("Righteous Shield2", false, 8, 0, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 9f, 0.4f),
+                  new Ability("Righteous Shield3", false, 8, 0, "(SP * 7.2) * (1 + TV_StrongerShield)", false, 0f, 1.5f, false, 0f, 6f, 0.4f),
+                  new Ability("Flash Heal", false, 8, 3, "SP * 3", false, 0f, 0.5f, false, 0f, 6f , 0.4f),
+                  new Ability("Renew", false, 8, 3, "(SP * 3.6) / 3", false, 0f, 2f, false, 0f, 6f , 0.4f),
+                  new Ability("Twin Heal", false, 8, 3, "Ally SP * 4.2; Self SP * 2.52", false, 0f, 3f, false, 0f, 6f , 0.4f),
+                  new Ability("Sacred Nova", true, 8, 3, "SP * 2.04 ALL", false, 0f, 0f, false, 0f, 0.5f, 0.4f),
+                  new Ability("Spiritual Effervescence", true, 8, 3, "?? amount extra shield like layer of HP", false, 0f, 0f, false, 0f, 0f, 0.4f),
+                  new Ability("Prayer of Redemption 1", false, 8, 3, "SP * 3.18 ALL", false, 0f, 6f, false, 0f, 6f , 0.4f),
+                  new Ability("Prayer of Redemption 2", false, 8, 3, "SP * 3.18 ALL", false, 0f, 5f, false, 0f, 6f , 0.4f),
+                  new Ability("Prayer of Redemption 3", false, 8, 3, "SP * 3.18 ALL", false, 0f, 4f, false, 0f, 6f , 0.4f),
+                  new Ability("Arhangel Wrath 2/2", true, 8, 3, "Self *0.7 DR for 8s after hit", false, 0f, 0f, false, 0f, 0f, 0f),
+                  new Ability("Mortification", true, 8, 3, "Ally *0.6 DR for 12s", false, 0f, 0f, false, 0f, 120f, 0.4f),
+                  new Ability("Sacrament", false, 8, 3, "(SP * 8.4) / NbTick", false, 0f, 6f, false, 0f, 15f, 0.4f),
+                  new Ability("Blessed Spirit", false, 8, 3, "SP * 2.52; jumps after heal 5 times last 30s per jump", false, 0f, 3f, false, 0f, 20f, 0.4f),
+//9 Necromancer
+                  new Ability("Seal of Necromancy", true, 9, 0, "SP * 1.8 * TCO after 20s", false, 0f, 0f, false, 0f, 10f, 0.4f),
+                  new Ability("Soul Sucking", false, 9, 3, "SP * 1.2 and [SP * 3.42 + SP * 2.052] heals", false, 0f, 4f, false, 0f, 6f, 1.4f),
+                  new Ability("Eat My Flesh", false, 9, 3, "SP * 1.26 self harm and SP * 2.52 * 1.5 OpenB heal", false, 0f, 2f, false, 0f, 6f, 0.4f),
+                  new Ability("Soul Eater", false, 9, 3, "(SP * 3.9) / NbTick ; *3 heal", false, 0f, 3f, false, 0f, 10f, 1.4f),
+                  new Ability("Last Incantation", false, 9, 3, "(SP * 6.3) * Lerp(0.35, 1.65, Time) / NbTick 21s + SP * 2.1 at end", false, 0f, 3.5f, false, 0f, 6f , 0.4f),
+                  new Ability("Army of Darkness", false, 9, 3, "SP * 3.9; DR * 0.7 DR ALL", false, 0f, 5f, false, 0f, 6f , 0.4f),
+                  new Ability("Over My Dead Body", true, 9, 3, "Sustained TAUNT; * 0.4 DR ;12s; AGGRO*=0.5 vs all at end", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Raise From the Dead", true, 9, 3, "25s mark. Raise and heal SP * 6 * (0.2 + CallerTime * 1.4)", false, 0f, 3f, false, 0f, 120f, 0f),
+                  new Ability("Touch of Death", true, 9, 3, "Haste -30 for 12s", false, 0f, 0f, false, 0f, 120f, 0f),
+//10 Elementalist
+                  new Ability("Scorch", false, 10, 0, "SP * 1.86 and (SP * 1.89) / NbTick DOT", false, 0f, 3f, false, 0f, 6f, 1f),
+                  new Ability("Frostbolt1", false, 10, 4, "SP * 3.125", false, 0f, 2.5f, false, 0f, 6f, 1f),
+                  new Ability("Frostbolt2", false, 10, 4, "SP * 3.125", false, 0f, 1.5f, false, 0f, 6f, 1f),
+                  new Ability("Frostbolt3", false, 10, 4, "SP * 3.125", false, 0f, 0.5f, false, 0f, 6f, 1f),
+                  new Ability("Fireball", false, 10, 4, "SP * 3.6 primary; * 0.7 rest;?damage loss range?; upto 0.6 as DOT", false, 0f, 4f, false, 0f, 6f, 1f),
+                  new Ability("Rain of Fire 1", false, 10, 4, "SP * 0.95 4 ticks", false, 0f, 8f, false, 0f, 20f, 1f),
+                  new Ability("Rain of Fire 2", false, 10, 4, "SP * 0.95 4 ticks", false, 0f, 8f, false, 0f, 17f, 1f),
+                  new Ability("Rain of Fire 3", false, 10, 4, "SP * 0.95 4 ticks", false, 0f, 8f, false, 0f, 14f, 1f),
+                  new Ability("Water Shield", true, 10, 4, "Self *0.85 DR for 15s", false, 0f, 0f, false, 0f, 90f, 0f),
+                  new Ability("Ice Shield", true, 10, 4, "Self *0.7 DR; Rest *0.85 DR for 15s", false, 0f, 0f, false, 0f, 90f, 0f),
+                  new Ability("Ice Blast", true, 10, 4, "SP * 4.4", false, 0f, 0f, false, 0f, 20f, 0f),
+                  new Ability("Focus", true, 10, 4, "Self CurMana += TM * 0.25", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Cauterize", true, 10, 4, "CurHP =  TH * 0.4 heal on death then bleed 0.3 * TH for 6s", false, 0f, 0f, false, 0f, 60f, 0f),
+//11 Warlock
+                  new Ability("Torment", false, 11, 0, "(SP * 4.08) / NbTick", false, 0f, 2.5f, false, 0f, 6f, 1f),
+                  new Ability("Shadowball1", false, 11, 4, "SP * 3.78", false, 0f, 4f, false, 0f, 6f, 1f),
+                  new Ability("Shadowball2", false, 11, 4, "SP * 3.78", false, 0f, 3f, false, 0f, 6f, 1f),
+                  new Ability("Shadowball3", false, 11, 4, "SP * 3.78", false, 0f, 2f, false, 0f, 6f, 1f),
+                  new Ability("DirePlague", false, 11, 4, "(SP * 4.5) * Lerp(0.5, 1.5, Time) / NbTick", false, 0f, 5f, false, 0f, 6f, 1f),
+                  new Ability("Hellfire 1", false, 11, 4, "(SP * 3.6 * 1) / NbTick; 4 ticks", false, 0f, 8f, false, 0f, 20f, 1f),
+                  new Ability("Hellfire 2", false, 11, 4, "(SP * 3.6 * 1.25) / NbTick; 5 ticks", false, 0f, 10f, false, 0f, 20f, 1f),
+                  new Ability("Hellfire 3", false, 11, 4, "(SP * 3.6 * 1.5) / NbTick; 6 ticks", false, 0f, 12f, false, 0f, 20f, 1f),
+                  new Ability("Drain Life", false, 11, 4, "(SP * 2.4) / NbTick; 3 ticks", false, 0f, 5f, false, 0f, 6f, 1f),
+                  new Ability("Lethal Empowerment", true, 11, 4, "Self TH * 0.15 damage, CurMana+= CallerDmg * MWTP", false, 0f, 0f, false, 0f, 3f, 0f),
+                  new Ability("Dominate1", false, 11, 4, "SP * 1.92; 20% DOT buff for 12s", false, 0f, 3.5f, false, 0f, 6f, 1f),
+                  new Ability("Dominate2", false, 11, 4, "SP * 1.92; 20% DOT buff for 12s", false, 0f, 2.5f, false, 0f, 6f, 1f),
+                  new Ability("Dominate3", false, 11, 4, "SP * 1.92; 20% DOT buff for 12s", false, 0f, 1.5f, false, 0f, 6f, 1f),
+                  new Ability("Demonic Form", true, 11, 4, "50% WD, 20% ShadowD, *0.5 DR for 15s", false, 0f, 0f, false, 0f, 150f, 0f),
+//12 Arcanist
+                  new Ability("Arcane Rupture1", false, 12, 0, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 12f, 1f),
+                  new Ability("Arcane Rupture2", false, 12, 0, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 11f, 1f),
+                  new Ability("Arcane Rupture3", false, 12, 0, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 10f, 1f),
+                  new Ability("Arcane Rupture4", false, 12, 0, "(SP * 2.58 * NbStack) / NbTick", false, 0f, 2.5f, false, 0f, 9f, 1f),
+                  new Ability("Arcane Burst1", false, 12, 4, "(SP * 4.2) / NbTick", false, 0f, 4f, false, 0f, 6f, 1f),
+                  new Ability("Arcane Burst2", false, 12, 4, "(SP * 4.2) / NbTick", false, 0f, 3f, false, 0f, 6f, 1f),
+                  new Ability("Arcane Burst3", false, 12, 4, "(SP * 4.2) / NbTick", false, 0f, 2f, false, 0f, 6f, 1f),
+                  new Ability("Arcane Lock", true, 12, 4, "Lock target 18s", false, 0f, 0f, false, 0f, 30f, 0f),
+                  new Ability("Arcane Armor", true, 12, 4, "Ally +15% Armor for 10 + 15s", false, 0f, 0f, false, 0f, 120f, 0f),
+                  new Ability("Arcane Fusion", true, 12, 4, "(SP * 0.39 * NbStack) / NbTick up to 3 stacks over 15s", false, 0f, 0f, false, 0f, 0f, 1f),
+                  new Ability("Mind Focus", true, 12, 4, "Ally Crit+=15% for 45s; Self Crit+=12%", false, 0f, 0f, false, 0f, 180f, 0f),
+                  new Ability("Total Rupture", true, 12, 4, "Resets Arcane Rupture cooldown", false, 0f, 0f, false, 0f, 40f, 0f),
+                  new Ability("Esoteric Connection", true, 12, 4, "Damage All Squad +=0.06% for ", false, 0f, 0f, false, 0f, 90f, 0f),
+                  new Ability("Arcane Implosion", true, 12, 4, "SP * 1.62 * (1 + NrArcaneRuptureStacks)", false, 0f, 0f, false, 0f, 30f, 0f),
+                  new Ability("Overcharge", true, 12, 4, "+20% Arcane Damage for 20s", false, 0f, 0f, false, 0f, 90f, 0f)
     };
 
         int GlobalTempButtonTotal = 0; // global var
@@ -662,11 +760,37 @@ namespace FotDG_calculator
             labelQ1ThreatMul.Text = labelQ2ThreatMul.Text = labelQ3ThreatMul.Text = labelQ4ThreatMul.Text = labelInstantThreatMul.Text = "";
 
             // populate Queable ablity list [queue times 4]  // populate the instant abilities
+            // first pass add profession abilties
 
             for (int i = 0; i < constNrAbilities; i++)
             {
 
                 if (myAbilityArray[i].ProfessionID == (ProfessionID + 1))
+                {
+                    if (myAbilityArray[i].Instant)
+                    {
+                        comboBox_InstantAbilities.Items.Add(myAbilityArray[i].Name);
+                        comboBox_InstantAbilities.SelectedIndex = 0;
+
+
+                    }
+                    else
+                    {
+                        comboBox_Queued_Ability1.Items.Add(myAbilityArray[i].Name); comboBox_Queued_Ability1.SelectedIndex = 0;
+                        comboBox_Queued_Ability2.Items.Add(myAbilityArray[i].Name); comboBox_Queued_Ability2.SelectedIndex = 0;
+                        comboBox_Queued_Ability3.Items.Add(myAbilityArray[i].Name); comboBox_Queued_Ability3.SelectedIndex = 0;
+                        comboBox_Queued_Ability4.Items.Add(myAbilityArray[i].Name); comboBox_Queued_Ability4.SelectedIndex = 0;
+
+
+                    }
+                }
+            }
+            // second pass ADD rest of the class abilities ?
+            // class matches and profession differs
+            for (int i = 0; i < constNrAbilities; i++)
+            {
+
+                if ((myAbilityArray[i].ProfessionID != (ProfessionID + 1)) && (myAbilityArray[i].Class == (myProfessionsArray[ProfessionID].Class )))
                 {
                     if (myAbilityArray[i].Instant)
                     {
