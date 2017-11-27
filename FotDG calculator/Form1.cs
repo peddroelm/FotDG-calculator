@@ -860,9 +860,12 @@ namespace FotDG_calculator
                 }
 
             }
+
+            if (MHID == 18) { comboBox_MH_WPN_Lvl.SelectedIndex = 0; comboBox_MH_W_QLTY.SelectedIndex = 0; }
+
             // NEED TO TRIGGER ABILITY COMBO EVENTS BECAUSE THEIR COOLDOWNS MIGHT DEPEND On WEAPON SPEED
 
-            update_MH_W_DPS(); update_RAP();
+                update_MH_W_DPS(); update_RAP();
 
 
             comboBox_Queued_Ability1_SelectedIndexChanged(comboBox_Queued_Ability1, new EventArgs());
@@ -1182,8 +1185,8 @@ namespace FotDG_calculator
                     OHWPNID++;
                 } while (OHWPNID < constNrWeaponClasses);
 
-
-                textBox_OH_SPD.Text = myWeaponClassArray[OHWPNID].Speed.ToString();
+            if  (OHWPNID == 18) { comboBox_OH_WPN_Lvl.SelectedIndex = 0; comboBox_OH_W_QLTY.SelectedIndex = 0; }
+            textBox_OH_SPD.Text = myWeaponClassArray[OHWPNID].Speed.ToString();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
