@@ -94,22 +94,22 @@ namespace FotDG_calculator
         const int constNrProfessions = 12;
         private Professions[] myProfessionsArray = new Professions[constNrProfessions]
       {
-  // 1 fist, 2 dagger, 3 fist_2H, 4 Wand, 5 Mace, 6 Sword, 7 BSword, 8 Axe, 9 BAxe, 10 Staff, 11 Bow, 12 BSword2H, 13 BAxe2H, 14 2HMace, 15 2HSword, 16 2HAxe, 17 Polearm, 18 Crossbow
-                  new Professions(1, 1, "Protector", true, "111011111001111110", "010000000000000000", 1.2f, 0f),
-                  new Professions(2, 1, "Man at Arms", true, "111011111001111110", "010011111001111110", 1.2f, 0f),
-                  new Professions(3, 1, "Paladin", false, "101011111001111110" , "", 1.2f, 0f),
-                  new Professions(4, 2, "Assassin", true, "111011010000000000", "010000000000000000", 1.2f, 0f),
-                  new Professions(5, 2, "Duelist", true, "111011010000000000" , "010000000000000000", 1.2f, 0f),
-                  new Professions(6, 2, "Ranger", false, "101000000010000001" , "", 0f, 1.05f),
-                  new Professions(7, 3, "Druid", false, "111110000100000000", "", 1f, 0.85f),
-                  new Professions(8, 3, "Priestess", false, "111110000100000000", "", 1f, 0.85f ),
-                  new Professions(9, 3, "Necromancer", false, "111110000100000000", "", 1f, 0.85f),
-                  new Professions(10, 4, "Elementalist", false, "111101000100000000", "", 1f, 0.85f),
-                  new Professions(11, 4, "Warlock", false, "111101000100000000", "", 1f, 0.85f),
-                  new Professions(12, 4, "Arcanist", false, "111101000100000000", "", 1f, 0.85f)
+  // 1 fist, 2 dagger, 3 fist_2H, 4 Wand, 5 Mace, 6 Sword, 7 BSword, 8 Axe, 9 BAxe, 10 Staff, 11 Bow, 12 BSword2H, 13 BAxe2H, 14 2HMace, 15 2HSword, 16 2HAxe, 17 Polearm, 18 Crossbow 19 PGladius
+                  new Professions(1, 1, "Protector", true, "1110111110011111101", "0100000000000000001", 1.2f, 0f),
+                  new Professions(2, 1, "Man at Arms", true, "1110111110011111101", "0100111110011111101", 1.2f, 0f),
+                  new Professions(3, 1, "Paladin", true, "1010111110011111101" , "0000000000000000001", 1.2f, 0f),
+                  new Professions(4, 2, "Assassin", true, "1110110100000000001", "0100000000000000001", 1.2f, 0f),
+                  new Professions(5, 2, "Duelist", true, "1110110100000000001" , "0100000000000000001", 1.2f, 0f),
+                  new Professions(6, 2, "Ranger", false, "1010000000100000010" , "", 0f, 1.05f),
+                  new Professions(7, 3, "Druid", false, "1111100001000000000", "", 1f, 0.85f),
+                  new Professions(8, 3, "Priestess", false, "1111100001000000000", "", 1f, 0.85f ),
+                  new Professions(9, 3, "Necromancer", false, "1111100001000000000", "", 1f, 0.85f),
+                  new Professions(10, 4, "Elementalist", false, "1111010001000000001", "", 1f, 0.85f),
+                  new Professions(11, 4, "Warlock", false, "1111010001000000001", "", 1f, 0.85f),
+                  new Professions(12, 4, "Arcanist", false, "1111010001000000001", "", 1f, 0.85f)
       };
 
-        const int constNrWeaponClasses = 18;
+        const int constNrWeaponClasses = 19;
         private WeaponClass[] myWeaponClassArray = new WeaponClass[constNrWeaponClasses]
       {
   // 1 fist, 2 dagger, 3 fist_2H, 4 Wand, 5 Mace, 6 Sword, 7 BSword, 8 Axe, 9 BAxe, 10 Staff, 11 Bow, 12 BSword2H, 13 BAxe2H, 14 2HMace, 15 2HSword, 16 2HAxe, 17 Polearm, 18 Crossbow
@@ -130,7 +130,8 @@ namespace FotDG_calculator
                   new WeaponClass(15, "2HSword", true, 2.2f, 1.3f, false),  // 1 * 1.3
                   new WeaponClass(15, "2HAxe", true, 2.4f, 1.3f, false),  // 1 * 1.3
                   new WeaponClass(16, "Polearm", true, 2.5f, 1.3f, false),  // 1 * 1.3
-                  new WeaponClass(17, "Crossbow", true, 3.3f, 1.3f, true)  // 1 * 1.3
+                  new WeaponClass(17, "Crossbow", true, 3.3f, 1.3f, true),  // 1 * 1.3
+                  new WeaponClass(18, "L1 QGarbage Practice Gladius", false, 1.6f, 0.5f, false)  // 
       };
 
 
